@@ -9,7 +9,6 @@ Complete listing of every file intended for the GitHub repository, with descript
 | File | Description |
 |------|-------------|
 | `README.md` | Project overview, architecture diagram, HTTP API reference, quick start guide, usage examples, and integration instructions. The primary documentation entry point. |
-| `KNOWN_ISSUES.md` | Documents build issues encountered (Java 8 compat, ternary autoboxing NPE, Gradle wrapper), functional issues (menu duplication, screenshot focus, single-client), and orchestrator notes (context window, screenshot token cost). |
 | `LICENSE` | MIT License (Copyright 2026 SwingMCP). |
 | `settings.gradle` | Gradle multi-module project configuration. Declares root project name `swing-mcp-server` and includes two subprojects: `swing-mcp-lib` and `demo-app`. |
 | `gradlew` | Gradle Wrapper shell script for Unix/macOS. Allows building without a global Gradle installation. Downloads Gradle 8.5 automatically on first run. |
@@ -30,6 +29,9 @@ Complete listing of every file intended for the GitHub repository, with descript
 | `ARCHITECTURE.md` | Deep-dive architecture document. Describes the three-component system (Swing app, embedded MCP server, Python orchestrator), data flow between EDT and HTTP threads, component ID assignment strategy, and action execution pipeline. |
 | `diagrams.md` | ASCII and text-based diagrams illustrating runtime flow (HTTP to EDT bridge), component tree structure, action execution pipeline, and screenshot capture sequence. |
 | `fat_client_rewrite_essay.md` | Essay on the "Fat Client Problem" - why rewriting legacy desktop applications breaks every team that tries. Covers server vs. client complexity, implicit state machines, layout engines, and why understanding the original UI is the hardest part. |
+| `KNOWN_ISSUES.md` | Documents build issues encountered (Java 8 compat, ternary autoboxing NPE, Gradle wrapper), functional issues (menu duplication, screenshot focus, single-client), and orchestrator notes (context window, screenshot token cost). |
+| `project_file_list.md` | This file. Complete listing of every file in the GitHub repository with descriptions. |
+| `java_swing_mcp_server_recap.md` | Comprehensive project recap document. Describes what the system is, how it works, design decisions, capabilities, and lessons learned from building the proof-of-concept. |
 
 ---
 
@@ -166,10 +168,8 @@ A Python agent loop that connects Claude (via Anthropic API) to the embedded MCP
 
 | File | Description |
 |------|-------------|
-| `java_swing_mcp_server_recap.md` | Comprehensive project recap document. Describes what the system is, how it works, design decisions, capabilities, and lessons learned from building the proof-of-concept. |
 | `save_screenshot.py` | Standalone Python utility script. Reads MCP screenshot JSON from stdin, base64-decodes the image data, and saves it to a PNG file (default: `screenshot.png`, or filename from command-line argument). Handles base64 padding. |
 | `CLAUDE.md` | Claude Code project instructions. Contains build/run commands, Java 8 compatibility rules, MCP API reference, component naming conventions, sector-symbol row mappings, order ticket behavior docs, and common MCP testing patterns. Automatically loaded by Claude Code at session start. |
-| `project_file_list.md` | This file. Complete listing of every file in the GitHub repository with descriptions. |
 | `java-swing-mcp.jpg` | Project screenshot/banner image showing the trading application UI. |
 | `java-swing-mcp-robot-horizontal.jpg` | Horizontal layout project image showing the application with Robot/MCP automation concept. |
 
