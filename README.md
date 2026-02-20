@@ -4,20 +4,20 @@ Giving AI agents structured access to Java Swing applications.
 
 ## Why This Exists
 
-JavaScript developers have it figured out. Their AI agents launch a browser, open DevTools, inspect the DOM, click elements, read state, fix code, and repeat — all programmatically. The entire write-test-fix loop runs autonomously because the browser exposes everything through structured APIs (Chrome DevTools Protocol, DOM inspection, element selectors).
+JavaScript developers have it figured out. Their AI agents launch a browser, open DevTools, inspect the DOM, click elements, read state, fix code, and repeat - all programmatically. The entire write-test-fix loop runs autonomously because the browser exposes everything through structured APIs (Chrome DevTools Protocol, DOM inspection, element selectors).
 
-Java Swing applications have none of this. The UI is a black box. No DOM. No DevTools. No structured inspection. The only option for an AI agent is pixel-based screen scraping — screenshots, mouse coordinates, OCR — which is fragile, slow, and lossy.
+Java Swing applications have none of this. The UI is a black box. No DOM. No DevTools. No structured inspection. The only option for an AI agent is pixel-based screen scraping - screenshots, mouse coordinates, OCR - which is fragile, slow, and lossy.
 
-This matters because Swing still powers critical enterprise systems in trading, healthcare, logistics, and government. These applications are locked out of the agentic AI development loop — the loop where an AI agent writes code, launches the app, inspects the result, identifies issues, fixes the code, and repeats until it works.
+This matters because Swing still powers critical enterprise systems in trading, healthcare, logistics, and government. These applications are locked out of the agentic AI development loop - the loop where an AI agent writes code, launches the app, inspects the result, identifies issues, fixes the code, and repeats until it works.
 
-**Java Swing MCP Server fixes this.** It's a lightweight Java library that embeds an HTTP server directly inside any Swing application. One line of code — `SwingMcpServer.start(9222)` — and the entire UI becomes accessible as structured JSON data. AI agents get the same powers over Swing apps that browser DevTools give over web apps: read the component tree, inspect state, execute actions by name, capture screenshots, and audit accessibility.
+**Java Swing MCP Server fixes this.** It's a lightweight Java library that embeds an HTTP server directly inside any Swing application. One line of code - `SwingMcpServer.start(9222)` - and the entire UI becomes accessible as structured JSON data. AI agents get the same powers over Swing apps that browser DevTools give over web apps: read the component tree, inspect state, execute actions by name, capture screenshots, and audit accessibility.
 
-The port number 9222 is intentional — it's the same default port used by Chrome DevTools Protocol.
+The port number 9222 is intentional - it's the same default port used by Chrome DevTools Protocol.
 
 ## Demos
 
-- [Java Swing MCP Server — Demo 1](https://youtu.be/09Cq8mLPSfw)
-- [Java Swing MCP Server — Demo 2](https://youtu.be/83hLbbmgwCA)
+- [Java Swing MCP Server - Demo 1](https://youtu.be/09Cq8mLPSfw)
+- [Java Swing MCP Server - Demo 2](https://youtu.be/83hLbbmgwCA)
 
 ## Architecture Overview
 
@@ -25,23 +25,23 @@ The port number 9222 is intentional — it's the same default port used by Chrom
 
 The system has three components:
 
-**1. swing-mcp-lib (inside the JVM)** — A reusable Java library that embeds an HTTP server inside the Swing application's own JVM process. It shares direct access to the live component hierarchy on the Event Dispatch Thread (EDT). Not a Java agent — no bytecode instrumentation, no JVM flags. Six internal engines handle component tree traversal, state extraction, action execution, screenshot capture, WCAG contrast checking, and user action recording.
+**1. swing-mcp-lib (inside the JVM)** - A reusable Java library that embeds an HTTP server inside the Swing application's own JVM process. It shares direct access to the live component hierarchy on the Event Dispatch Thread (EDT). Not a Java agent - no bytecode instrumentation, no JVM flags. Six internal engines handle component tree traversal, state extraction, action execution, screenshot capture, WCAG contrast checking, and user action recording.
 
-**2. Python Orchestrator (outside the JVM)** — A Claude agent loop that connects to the embedded server via HTTP on localhost:9222. Translates Claude's tool calls into API requests, returns structured JSON and screenshots, and manages context window compaction at ~80K tokens.
+**2. Python Orchestrator (outside the JVM)** - A Claude agent loop that connects to the embedded server via HTTP on localhost:9222. Translates Claude's tool calls into API requests, returns structured JSON and screenshots, and manages context window compaction at ~80K tokens.
 
-**3. Claude AI Agent (cloud)** — Receives the component tree and screenshots as structured data. Reasons about UI state, plans multi-step interactions, issues tool calls, and produces reports. Any AI model or HTTP client can fill this role — Claude is not required.
+**3. Claude AI Agent (cloud)** - Receives the component tree and screenshots as structured data. Reasons about UI state, plans multi-step interactions, issues tool calls, and produces reports. Any AI model or HTTP client can fill this role - Claude is not required.
 
 ## What Can It Do?
 
-**AI-Assisted Development** — The agent writes code, launches the app, inspects the result through the MCP server, identifies issues, fixes the code, relaunches, and repeats. This is the Swing equivalent of a JavaScript developer's hot-reload + browser DevTools loop, driven by AI.
+**AI-Assisted Development** - The agent writes code, launches the app, inspects the result through the MCP server, identifies issues, fixes the code, relaunches, and repeats. This is the Swing equivalent of a JavaScript developer's hot-reload + browser DevTools loop, driven by AI.
 
-**Functional Testing** — Define test cases as natural language prompts. The agent navigates the UI, fills forms, submits actions, and verifies results by reading actual component state — not pixels.
+**Functional Testing** - Define test cases as natural language prompts. The agent navigates the UI, fills forms, submits actions, and verifies results by reading actual component state - not pixels.
 
-**Regression Testing** — After a code change, the agent compares structured component trees and states against baselines. It knows exactly which component changed, what property changed, and by how much — no fuzzy pixel diffs.
+**Regression Testing** - After a code change, the agent compares structured component trees and states against baselines. It knows exactly which component changed, what property changed, and by how much - no fuzzy pixel diffs.
 
-**Accessibility Auditing** — Automated WCAG 2.1 contrast ratio checking on every text-bearing component. Returns exact colors, ratios, and AA/AAA pass/fail per component.
+**Accessibility Auditing** - Automated WCAG 2.1 contrast ratio checking on every text-bearing component. Returns exact colors, ratios, and AA/AAA pass/fail per component.
 
-**Action Recording** — Captures human interactions (mouse clicks, key presses, combo selections, tree navigation) as timestamped markdown files that serve as reproducible test scripts.
+**Action Recording** - Captures human interactions (mouse clicks, key presses, combo selections, tree navigation) as timestamped markdown files that serve as reproducible test scripts.
 
 ## Prerequisites
 
@@ -49,7 +49,7 @@ The system has three components:
 - **Python 3.10+** (for the orchestrator)
 - **Anthropic API key** set as `ANTHROPIC_API_KEY` environment variable
 
-No global Gradle installation needed — the project includes a Gradle Wrapper.
+No global Gradle installation needed - the project includes a Gradle Wrapper.
 
 ## Quick Start
 
@@ -77,7 +77,7 @@ python orchestrator.py "Explore the app, submit a test order, check for contrast
 
 All endpoints return `Content-Type: application/json`. All Swing component access is performed on the EDT via `SwingUtilities.invokeAndWait()`.
 
-### `GET /tree` — Component Tree
+### `GET /tree` - Component Tree
 
 Returns the component tree as a flat JSON array with parent references.
 
@@ -129,7 +129,7 @@ curl "http://localhost:9222/tree?types=JButton,JTextField"
 ]
 ```
 
-The tree is serialized as a **flat array** — not nested JSON. Each node carries its own `parent` ID reference. This format is optimized for LLM consumption: compact, easy to reference by ID, and doesn't waste context window tokens on deep indentation.
+The tree is serialized as a **flat array** - not nested JSON. Each node carries its own `parent` ID reference. This format is optimized for LLM consumption: compact, easy to reference by ID, and doesn't waste context window tokens on deep indentation.
 
 If the tree exceeds 200 components, the response is wrapped:
 ```json
@@ -140,7 +140,7 @@ If the tree exceeds 200 components, the response is wrapped:
 }
 ```
 
-### `GET /component/{nameOrId}` — Component State
+### `GET /component/{nameOrId}` - Component State
 
 Returns detailed state for a single component. Look up by name (string) or ID (numeric).
 
@@ -213,7 +213,7 @@ curl "http://localhost:9222/component/blotterTable?rows=0-4"
 }
 ```
 
-### `POST /action` — Execute Interaction
+### `POST /action` - Execute Interaction
 
 Execute an action on a component. All actions run on the EDT and return the updated component state after a 100ms settle delay.
 
@@ -290,7 +290,7 @@ curl -X POST http://localhost:9222/action \
 }
 ```
 
-### `GET /screenshot` — Capture Screenshot
+### `GET /screenshot` - Capture Screenshot
 
 Capture the application window or a specific component as PNG.
 
@@ -313,7 +313,7 @@ curl "http://localhost:9222/screenshot?component=blotterTable"
 curl "http://localhost:9222/screenshot?format=raw" > screenshot.png
 ```
 
-### `GET /contrast` — WCAG Contrast Check
+### `GET /contrast` - WCAG Contrast Check
 
 Check all text-bearing components for WCAG 2.1 contrast ratio compliance.
 
@@ -343,7 +343,7 @@ curl http://localhost:9222/contrast
 }
 ```
 
-### `GET /health` — Server Health
+### `GET /health` - Server Health
 
 ```bash
 curl http://localhost:9222/health
@@ -407,7 +407,7 @@ java-swing-mcp/
 
 **Flat tree, not nested JSON.** The component tree is serialized as a flat array with parent ID references. Each component is self-contained. No deep indentation wasting context tokens. Components are referenceable by ID without tree traversal.
 
-**JDK HttpServer, zero transport dependencies.** Uses `com.sun.net.httpserver.HttpServer` — built into the JDK. The only external dependency is Gson for JSON serialization.
+**JDK HttpServer, zero transport dependencies.** Uses `com.sun.net.httpserver.HttpServer` - built into the JDK. The only external dependency is Gson for JSON serialization.
 
 **Java 8 compatible.** Targeting Java 8 ensures the library works in enterprise environments where Swing applications are most common. Many production systems still run on Java 8.
 
