@@ -1,23 +1,24 @@
 # Java Swing MCP Server
 
-Giving AI agents structured access to Java Swing applications.
+Giving AI agents structured access to Java Swing applications - and a portable pattern for any fat client.
 
 ## Why This Exists
 
 JavaScript developers have it figured out. Their AI agents launch a browser, open DevTools, inspect the DOM, click elements, read state, fix code, and repeat - all programmatically. The entire write-test-fix loop runs autonomously because the browser exposes everything through structured APIs (Chrome DevTools Protocol, DOM inspection, element selectors).
 
-Java Swing applications have none of this. The UI is a black box. No DOM. No DevTools. No structured inspection. The only option for an AI agent is pixel-based screen scraping - screenshots, mouse coordinates, OCR - which is fragile, slow, and lossy.
+Desktop fat client applications have none of this. Java Swing, WPF, Qt, GTK, Win32/MFC, Delphi - these applications are black boxes. No DOM. No DevTools. No structured inspection. The only option for an AI agent is pixel-based screen scraping - screenshots, mouse coordinates, OCR - which is fragile, slow, and lossy.
 
-This matters because Swing still powers critical enterprise systems in trading, healthcare, logistics, and government. These applications are locked out of the agentic AI development loop - the loop where an AI agent writes code, launches the app, inspects the result, identifies issues, fixes the code, and repeats until it works.
+This matters because fat clients still power critical enterprise systems in trading, healthcare, logistics, and government. Their state lives in memory, not in a database. Their behavior is event-driven and non-linear. Their most important behaviors are often emergent - the result of dozens of independent listeners, timers, and handlers interacting in ways that nobody fully designed and nobody currently on the team fully understands. The running application is its own documentation, and that documentation is inaccessible to any tool that cannot observe the UI programmatically.
 
-**Java Swing MCP Server fixes this.** It's a lightweight Java library that embeds an HTTP server directly inside any Swing application. One line of code - `SwingMcpServer.start(9222)` - and the entire UI becomes accessible as structured JSON data. AI agents get the same powers over Swing apps that browser DevTools give over web apps: read the component tree, inspect state, execute actions by name, capture screenshots, and audit accessibility.
+These applications are locked out of the agentic AI development loop - the loop where an AI agent writes code, launches the app, inspects the result, identifies issues, fixes the code, and repeats until it works. They are also locked out of AI-assisted legacy rewrite efforts, where the first and hardest step is understanding what the old application actually does.
+
+**Java Swing MCP Server fixes this for Swing, and demonstrates a pattern that applies to any fat client framework.** It's a lightweight Java library that embeds an HTTP server directly inside any Swing application. One line of code - `SwingMcpServer.start(9222)` - and the entire UI becomes accessible as structured JSON data. AI agents get the same powers over Swing apps that browser DevTools give over web apps: read the component tree, inspect state, execute actions by name, capture screenshots, and audit accessibility.
 
 The port number 9222 is intentional - it's the same default port used by Chrome DevTools Protocol.
 
 ## Demos
 
-- [Java Swing MCP Server - Demo 1](https://youtu.be/09Cq8mLPSfw)
-- [Java Swing MCP Server - Demo 2](https://youtu.be/83hLbbmgwCA)
+Demo videos are available on the [Java Swing MCP YouTube channel](https://www.youtube.com/@java-swing-mcp).
 
 ## Architecture Overview
 
@@ -35,13 +36,21 @@ The system has three components:
 
 **AI-Assisted Development** - The agent writes code, launches the app, inspects the result through the MCP server, identifies issues, fixes the code, relaunches, and repeats. This is the Swing equivalent of a JavaScript developer's hot-reload + browser DevTools loop, driven by AI.
 
+**Legacy Application Rewrite Support** - Rewrite teams can observe the actual running application instead of relying on stale wikis and incomplete user interviews. An AI agent can methodically explore the application screen by screen, workflow by workflow, and produce structured documentation of what exists. The action recorder captures real user behavior over time, revealing which features are used daily, which are never used, and what the actual sequence of actions looks like for common workflows. This closes the observation gap that causes most rewrite projects to fail.
+
 **Functional Testing** - Define test cases as natural language prompts. The agent navigates the UI, fills forms, submits actions, and verifies results by reading actual component state - not pixels.
 
 **Regression Testing** - After a code change, the agent compares structured component trees and states against baselines. It knows exactly which component changed, what property changed, and by how much - no fuzzy pixel diffs.
 
 **Accessibility Auditing** - Automated WCAG 2.1 contrast ratio checking on every text-bearing component. Returns exact colors, ratios, and AA/AAA pass/fail per component.
 
-**Action Recording** - Captures human interactions (mouse clicks, key presses, combo selections, tree navigation) as timestamped markdown files that serve as reproducible test scripts.
+**Action Recording** - Captures human interactions (mouse clicks, key presses, combo selections, tree navigation) as timestamped markdown files that serve as reproducible test scripts or user behavior analysis data.
+
+**Business Analyst Enablement** - BAs can explore the application programmatically through the HTTP API or through an AI assistant connected to it. What are all the columns in this table? What values appear in this dropdown? What changes in the UI when I switch the order type? These questions become HTTP requests that return structured, accurate, current answers.
+
+## About the Demo Trading App
+
+The included equity trading application exists solely to demonstrate how the MCP server works. It is a generic representation of a trading application UI - it is not connected to, derived from, or based on any real system at any workplace. The app is intentionally left unfinished, with known bugs and missing features, so that others can use it as a practice project for fixing issues and implementing new functionality with the help of AI agents and the MCP server.
 
 ## Prerequisites
 
@@ -364,6 +373,8 @@ java-swing-mcp/
 ├── settings.gradle
 ├── gradlew / gradlew.bat           # Gradle Wrapper (Gradle 8.5)
 ├── java-swing-mcp.jpg              # Architecture infographic
+├── LICENSE
+├── KNOWN_ISSUES.md
 ├── gradle/wrapper/
 │   ├── gradle-wrapper.jar
 │   └── gradle-wrapper.properties
@@ -398,7 +409,9 @@ java-swing-mcp/
 │   ├── swing_client.py                     # HTTP client wrapper
 │   └── tool_definitions.py                 # Claude tool schemas
 └── docs/
-    └── ARCHITECTURE.md              # Deep-dive architecture document
+    ├── ARCHITECTURE.md              # Deep-dive architecture document
+    ├── diagrams.md                  # Architecture diagrams
+    └── fat_client_rewrite_essay.md  # The Fat Client Problem essay
 ```
 
 ## Key Design Decisions
@@ -445,6 +458,24 @@ Name your components with `setName("myComponent")` and they become addressable b
 | Record user actions | Recorder panel | `UserActionRecorder` |
 | Protocol | Chrome DevTools Protocol (WebSocket) | HTTP + JSON (localhost:9222) |
 | Integration point | Browser remote debug port | Embedded library in JVM |
+
+## The Portable Pattern
+
+This project targets Java Swing, but the pattern is technology-agnostic. The core idea - embed an HTTP server inside the running application so it can describe its own UI graph - applies to any desktop framework where you have source code access.
+
+**Java Swing.** Walk the AWT Component hierarchy. Serialize with Gson. Serve with the JDK's built-in HttpServer. This is what java-swing-mcp implements.
+
+**WPF (.NET).** Walk the VisualTree and LogicalTree. Serialize with System.Text.Json. Serve with HttpListener or embedded Kestrel. WPF's dependency property system means you can extract data bindings and styles in addition to visual state.
+
+**Qt (C++/Python).** Walk the QObject tree. Serialize with QJsonDocument or nlohmann/json. Serve with QHttpServer (Qt 6.4+) or embedded microhttpd. Qt's meta-object system provides rich property information.
+
+**GTK.** Walk the widget tree. Serialize with json-glib. Serve with libsoup. GTK's GObject property system supports introspection.
+
+**Win32/MFC.** Walk the HWND tree with EnumChildWindows. Serialize with a JSON library. Serve with WinHTTP or an embedded HTTP library. Less rich component metadata, but window text, class names, and styles are available.
+
+The implementation details differ. The principle is the same: the application opens a port, looks at its own UI graph, and describes what it sees. Any tool that speaks HTTP can then ask questions and take actions.
+
+For a deeper discussion of the fat client observation problem and how this pattern fits into legacy rewrite projects, see the companion essay: [The Fat Client Problem](docs/fat_client_rewrite_essay.md).
 
 ## License
 
