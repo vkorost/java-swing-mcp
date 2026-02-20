@@ -29,7 +29,7 @@ The system has three components:
 
 **2. Python Orchestrator (outside the JVM)** - A Claude agent loop that connects to the embedded server via HTTP on localhost:9222. Translates Claude's tool calls into API requests, returns structured JSON and screenshots, and manages context window compaction at ~80K tokens.
 
-**3. Claude AI Agent (cloud)** - Receives the component tree and screenshots as structured data. Reasons about UI state, plans multi-step interactions, issues tool calls, and produces reports. Any AI model or HTTP client can fill this role - Claude is not required.
+**3. Claude AI Agent** - Receives the component tree and screenshots as structured data. Reasons about UI state, plans multi-step interactions, issues tool calls, and produces reports. Any AI model or HTTP client can fill this role - Claude is not required.
 
 ## What Can It Do?
 
@@ -450,6 +450,5 @@ Name your components with `setName("myComponent")` and they become addressable b
 
 MIT
 
----
 
 ![Java Swing MCP](java-swing-mcp-robot-horizontal.jpg)
