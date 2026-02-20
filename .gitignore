@@ -1,0 +1,19 @@
+build/
+.gradle/
+*.class
+__pycache__/
+.idea/
+*.iml
+.vscode/
+venv/
+*.pyc
+.env
+
+# MCP server screenshot artifacts
+swing-mcp-screenshot-*.png
+screenshot.json
+screenshot_output.json
+
+# Test screenshots (keep only java-swing-mcp*.jpg for README)
+replay*.png
+screenshot*.png

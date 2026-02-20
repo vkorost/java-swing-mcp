@@ -1,0 +1,3 @@
+rootProject.name = 'swing-mcp-server'
+include 'swing-mcp-lib'
+include 'demo-app'

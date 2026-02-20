@@ -1,0 +1,21 @@
+plugins {
+    id 'application'
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+application {
+    mainClass = 'com.swingmcp.demo.TradingApp'
+}
+
+dependencies {
+    implementation project(':swing-mcp-lib')
+    implementation 'com.formdev:flatlaf:3.6.1'
+}
+
+repositories {
+    mavenCentral()
+}
