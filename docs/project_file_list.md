@@ -163,6 +163,7 @@ A Python agent loop that connects Claude (via Anthropic API) to the embedded MCP
 | `orchestrator.py` | Main Claude agent loop. Takes a user prompt as a command-line argument, sends it to Claude with tool definitions, executes tool calls against the MCP server, and returns results. Implements context window management with message compaction at ~80K tokens. Keeps at most 2 screenshots in history to control token usage. Runs until Claude returns a final text response without tool calls. |
 | `swing_client.py` | HTTP client wrapper for the MCP server API. Provides Python functions for each endpoint: `get_tree()`, `get_component(name)`, `post_action(action_dict)`, `get_screenshot()`, `get_contrast()`, `get_health()`. Handles base URL configuration, JSON parsing, and error handling. |
 | `tool_definitions.py` | Claude tool schema definitions. Declares all available tools that Claude can call: `get_component_tree`, `get_component_state`, `perform_action`, `take_screenshot`, `check_contrast`, `check_health`. Each tool has a name, description, and JSON Schema for its input parameters — formatted for the Anthropic API tool_use specification. |
+| `save_screenshot.py` | Standalone Python utility script. Reads MCP screenshot JSON from stdin, base64-decodes the image data, and saves it to a PNG file (default: `screenshot.png`, or filename from command-line argument). Handles base64 padding. |
 
 ---
 
@@ -170,7 +171,6 @@ A Python agent loop that connects Claude (via Anthropic API) to the embedded MCP
 
 | File | Description |
 |------|-------------|
-| `save_screenshot.py` | Standalone Python utility script. Reads MCP screenshot JSON from stdin, base64-decodes the image data, and saves it to a PNG file (default: `screenshot.png`, or filename from command-line argument). Handles base64 padding. |
 | `CLAUDE.md` | Claude Code project instructions. Contains build/run commands, Java 8 compatibility rules, MCP API reference, component naming conventions, sector-symbol row mappings, order ticket behavior docs, and common MCP testing patterns. Automatically loaded by Claude Code at session start. |
 
 ---
