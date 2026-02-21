@@ -32,6 +32,8 @@ Complete listing of every file intended for the GitHub repository, with descript
 | `KNOWN_ISSUES.md` | Documents build issues encountered (Java 8 compat, ternary autoboxing NPE, Gradle wrapper), functional issues (menu duplication, screenshot focus, single-client), and orchestrator notes (context window, screenshot token cost). |
 | `project_file_list.md` | This file. Complete listing of every file in the GitHub repository with descriptions. |
 | `java_swing_mcp_server_recap.md` | Comprehensive project recap document. Describes what the system is, how it works, design decisions, capabilities, and lessons learned from building the proof-of-concept. |
+| `java-swing-mcp.jpg` | Architecture infographic showing the three-zone system (Swing app, Python orchestrator, Claude agent), all six MCP server capabilities, and key facts. Referenced by README.md. |
+| `java-swing-mcp-robot-horizontal.jpg` | Project banner image showing a robot interacting with a trading application. Referenced by README.md. |
 
 ---
 
@@ -170,8 +172,6 @@ A Python agent loop that connects Claude (via Anthropic API) to the embedded MCP
 |------|-------------|
 | `save_screenshot.py` | Standalone Python utility script. Reads MCP screenshot JSON from stdin, base64-decodes the image data, and saves it to a PNG file (default: `screenshot.png`, or filename from command-line argument). Handles base64 padding. |
 | `CLAUDE.md` | Claude Code project instructions. Contains build/run commands, Java 8 compatibility rules, MCP API reference, component naming conventions, sector-symbol row mappings, order ticket behavior docs, and common MCP testing patterns. Automatically loaded by Claude Code at session start. |
-| `java-swing-mcp.jpg` | Project screenshot/banner image showing the trading application UI. |
-| `java-swing-mcp-robot-horizontal.jpg` | Horizontal layout project image showing the application with Robot/MCP automation concept. |
 
 ---
 

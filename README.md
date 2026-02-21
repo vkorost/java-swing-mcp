@@ -22,7 +22,7 @@ Demo videos are available on the [Java Swing MCP YouTube channel](https://www.yo
 
 ## Architecture Overview
 
-![Java Swing MCP Server Architecture](java-swing-mcp.jpg)
+![Java Swing MCP Server Architecture](docs/java-swing-mcp.jpg)
 
 The system has three components:
 
@@ -372,9 +372,7 @@ curl http://localhost:9222/health
 java-swing-mcp/
 ├── settings.gradle
 ├── gradlew / gradlew.bat           # Gradle Wrapper (Gradle 8.5)
-├── java-swing-mcp.jpg              # Architecture infographic
 ├── LICENSE
-├── KNOWN_ISSUES.md
 ├── gradle/wrapper/
 │   ├── gradle-wrapper.jar
 │   └── gradle-wrapper.properties
@@ -411,8 +409,22 @@ java-swing-mcp/
 └── docs/
     ├── ARCHITECTURE.md              # Deep-dive architecture document
     ├── diagrams.md                  # Architecture diagrams
-    └── fat_client_rewrite_essay.md  # The Fat Client Problem essay
+    ├── fat_client_rewrite_essay.md  # The Fat Client Problem essay
+    ├── KNOWN_ISSUES.md              # Known issues and workarounds
+    ├── java_swing_mcp_server_recap.md  # Project recap and lessons learned
+    ├── project_file_list.md         # Complete file inventory with descriptions
+    ├── java-swing-mcp.jpg           # Architecture infographic
+    └── java-swing-mcp-robot-horizontal.jpg  # Project banner image
 ```
+
+## Documentation
+
+- [Architecture Deep-Dive](docs/ARCHITECTURE.md) - Three-component system design, EDT bridging, component ID assignment, and action execution pipeline
+- [The Fat Client Problem](docs/fat_client_rewrite_essay.md) - Why rewriting legacy desktop applications breaks every team that tries
+- [Architecture Diagrams](docs/diagrams.md) - Runtime flow, component tree structure, and action execution pipeline
+- [Known Issues](docs/KNOWN_ISSUES.md) - Build issues, functional limitations, and orchestrator notes
+- [Project Recap](docs/java_swing_mcp_server_recap.md) - What the system is, design decisions, capabilities, and lessons learned
+- [Complete File Inventory](docs/project_file_list.md) - Every file in the repository with descriptions
 
 ## Key Design Decisions
 
@@ -482,4 +494,4 @@ For a deeper discussion of the fat client observation problem and how this patte
 MIT
 
 
-![Java Swing MCP](java-swing-mcp-robot-horizontal.jpg)
+![Java Swing MCP](docs/java-swing-mcp-robot-horizontal.jpg)
