@@ -27,7 +27,7 @@ sequenceDiagram
     HTTP->>HTTP: Gson serializes to JSON
     HTTP-->>Client: 200 OK — JSON array of components
 
-    Note over Client,Robot: === GET /component/{name} — Component State ===
+    Note over Client,Robot: === GET /component/name — Component State ===
     Client->>HTTP: GET /component/blotterTable
     HTTP->>EDT: invokeAndWait(findComponent + extractState)
     EDT->>UI: Find by name or ID
@@ -85,14 +85,14 @@ sequenceDiagram
     EDT->>EDT: ImageIO.write → byte[]
     EDT->>EDT: Base64.encode(pngBytes)
     EDT-->>HTTP: CaptureResult(base64, width, height)
-    HTTP-->>Client: 200 OK — #123;"image":"data:image/png;base64,..."#125;
+    HTTP-->>Client: 200 OK — image:data:image/png;base64,...
 
     Note over Client,Robot: === GET /contrast — Accessibility Check ===
     Client->>HTTP: GET /contrast
     HTTP->>EDT: invokeAndWait(contrastChecker.checkAll())
     EDT->>UI: Walk all text-bearing components
     EDT->>EDT: Calculate luminance ratio<br/>for each fg/bg color pair
-    EDT-->>HTTP: {issues: [...], totalChecked, totalIssues}
+    EDT-->>HTTP: issues:[], totalChecked, totalIssues
     HTTP-->>Client: 200 OK — WCAG contrast report
 ```
 
@@ -190,7 +190,7 @@ graph TB
 
     %% Handler routing
     HAH -->|"/tree"| CTW
-    HAH -->|"/component/{name}"| CSE
+    HAH -->|"/component/name"| CSE
     HAH -->|"/action"| IE
     HAH -->|"/screenshot"| SC
     HAH -->|"/contrast"| CC
@@ -359,6 +359,6 @@ sequenceDiagram
     Note over Agent,Handler: Step 6: Verify
     Agent->>MCP: GET /component/blotterTable
     MCP->>Blotter: extractState(blotterTable)
-    Blotter-->>MCP: {columns, data, rowCount}
+    Blotter-->>MCP: columns, data, rowCount
     MCP-->>Agent: ✓ New row visible with<br/>Status=Executed, Side=BUY,<br/>Qty=1500, Symbol=QQQ,<br/>Limit Price=525.30
 ```
