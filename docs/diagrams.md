@@ -85,7 +85,7 @@ sequenceDiagram
     EDT->>EDT: ImageIO.write → byte[]
     EDT->>EDT: Base64.encode(pngBytes)
     EDT-->>HTTP: CaptureResult(base64, width, height)
-    HTTP-->>Client: 200 OK — image:data:image/png;base64,...
+    HTTP-->>Client: 200 OK — base64-encoded PNG image
 
     Note over Client,Robot: === GET /contrast — Accessibility Check ===
     Client->>HTTP: GET /contrast
